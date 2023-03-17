@@ -1,19 +1,31 @@
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { EditorState } from "lexical";
-import { useRef, useState, useEffect } from "react";
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { EditorState } from 'lexical';
+import { useRef, useState, useEffect } from 'react';
 
-import { Editor } from "./components/Editor";
-import { demoTest, initial } from "./data_sample";
+import { Editor } from './components/Editor';
+import { demoTest, initial } from './data_sample';
 
-function App() {
+interface AppPops {
+  config: {
+    data: string,
+    onChange?: (data: string) => void;
+    onChangeAsHTML?: (html: string) => void;
+  }
+}
+
+function App({config}: AppPops) {
+  const initialData = config.data
+    ? config.data
+    : initial;
+  const onChangeCallback = config.onChange
+    ? config.onChange
+    : () => {};
+
+
   const editorRef = useRef<EditorState>(null);
 
-  const [textData, setTextData] = useState<string>(initial);
+  const [textData, setTextData] = useState<string>(initialData);
   const [isBlockDraggable, setIsBlockDraggable] = useState(true);
-
-  // const [editor] = useLexicalComposerContext();
-
-  // editor.parseEditorState()
 
   const handleSave = () => {
     console.log(JSON.stringify(editorRef.current?.toJSON()));
@@ -23,9 +35,12 @@ function App() {
     setTextData(demoTest);
   };
 
+  const onChangeHandler = (data: string) => {
+    console.log('onChange', data);
+    return onChangeCallback(data);
+  }
+
   return (
-    // <div className="App">
-    //
     <>
       <div className='app-title'>
         <h1>Text Editor test</h1>
@@ -37,31 +52,29 @@ function App() {
         </button>
       </div>
 
-      <div style={{ marginLeft: "32px", display: "none" }}>
+      <div style={{marginLeft: '32px', display: 'none'}}>
         <input
-          type={"checkbox"}
+          type={'checkbox'}
           id='movedBlock'
           checked={isBlockDraggable}
           onChange={(e) => setIsBlockDraggable(e.target.checked)}
         />
-        <label htmlFor='movedBlock'>Перемещаемые блоки</label>
+        <label htmlFor='movedBlock'>Draggable blocks</label>
       </div>
-      <div className="editor-shell">
+      <div className='editor-shell'>
         <Editor
           ref={editorRef}
           // htmlSource={
-          //   '<p class="editor-paragraph" dir="ltr"><span>Test </span><span style="color: red;">placeholder</span></p>'
+          //   '<p class='editor-paragraph' dir='ltr'><span>Test </span><span style='color: red;'>placeholder</span></p>'
           // }
           initialText={textData}
           draggableBlocks={isBlockDraggable}
-          // onChange={(s) => console.log(s)}
+          onChange={(s) => onChangeHandler(s)}
           onChangeAsHTML={(html) => console.log(html)}
-          onBlur={() => console.log("DETECT LOST FOCUS")}
+          onBlur={() => console.log('DETECT LOST FOCUS')}
         />
       </div>
     </>
-
-    // </div>
   );
 }
 

@@ -1,29 +1,27 @@
-// import ExampleTheme from "./themes/ExampleTheme";
-import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
-import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
-import { ContentEditable } from "@lexical/react/LexicalContentEditable";
-import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
-import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
-import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
-// import TreeViewPlugin from "./plugins/TreeViewPlugin";
-// import ToolbarPlugin from "./plugins/ToolbarPlugin";
-import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
-// import AutoLinkPlugin from "@lexical/react/LexicalAutoLinkPlugin";
-import { ListPlugin } from "@lexical/react/LexicalListPlugin";
-import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin";
-import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
-import ComponentPickerPlugin from "./plugins/ComponentPickerPlugin";
-import FloatingTextFormatToolbarPlugin from "./plugins/FloatingTextFormatToolbarPlugin";
-import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
-import AutocompletePlugin from "./plugins/AutocomplatePlugin";
-import { DraggableBlockPlugin } from "./plugins/DraggableBlockPlugin";
+import { LexicalComposer } from '@lexical/react/LexicalComposer';
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+import { ContentEditable } from '@lexical/react/LexicalContentEditable';
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
+import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
+// import ToolbarPlugin from './plugins/ToolbarPlugin';
+import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
+// import AutoLinkPlugin from '@lexical/react/LexicalAutoLinkPlugin';
+import { ListPlugin } from '@lexical/react/LexicalListPlugin';
+import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
+import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin';
+import ComponentPickerPlugin from './plugins/ComponentPickerPlugin';
+import FloatingTextFormatToolbarPlugin from './plugins/FloatingTextFormatToolbarPlugin';
+import AutoLinkPlugin from './plugins/AutoLinkPlugin';
+import AutocompletePlugin from './plugins/AutocomplatePlugin';
+import { DraggableBlockPlugin } from './plugins/DraggableBlockPlugin';
 
-import "./style.css";
-import { editorConfig } from "./config";
-import { forwardRef, useEffect, useRef, useState } from "react";
-import FloatingLinkEditorPlugin from "./plugins/FloatingLinkEditorPlugin";
-import { SharedAutocompleteContext } from "./context/SharedAutocompleteContext";
+import './style.css';
+import { editorConfig } from './config';
+import { forwardRef, useEffect, useRef, useState } from 'react';
+import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditorPlugin';
+import { SharedAutocompleteContext } from './context/SharedAutocompleteContext';
 import {
   $getRoot,
   $insertNodes,
@@ -31,15 +29,15 @@ import {
   $applyNodeReplacement,
   $setSelection,
   LexicalEditor,
-} from "lexical";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { MarkdownPlugin } from "./plugins/MarkdownShortcutPlugin";
-import { $generateHtmlFromNodes } from "@lexical/html";
-import { LoadingHTMLData } from "./plugins/LoadingHTMLData";
+} from 'lexical';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { MarkdownPlugin } from './plugins/MarkdownShortcutPlugin';
+import { $generateHtmlFromNodes } from '@lexical/html';
+import { LoadingHTMLData } from './plugins/LoadingHTMLData';
 
 function Placeholder() {
   return (
-    <div className='editor-placeholder' style={{ paddingLeft: "24px" }}>
+    <div className='editor-placeholder' style={{paddingLeft: '24px'}}>
       Enter text
     </div>
   );
@@ -63,14 +61,15 @@ interface EditorProps {
 interface LoadingDataPluginsProps {
   data: string;
 }
-const LoadingDataPlugins = ({ data }: LoadingDataPluginsProps): null => {
+
+const LoadingDataPlugins = ({data}: LoadingDataPluginsProps): null => {
   console.log(data);
   const [editor] = useLexicalComposerContext();
   const editorState = editor.parseEditorState(data);
   editor.setEditorState(editorState);
 
   useEffect(() => {
-    console.log("DATA CHANGED", data);
+    console.log('DATA CHANGED', data);
   }, [data]);
 
   return null;
@@ -123,9 +122,9 @@ export const Editor = forwardRef<EditorState, EditorProps>(
 
       editor.update(() => {
         const s = $generateHtmlFromNodes(editor, null);
-        const parsed = s.replace(/(<.*?>)/g, " ").replace(/\s+/g," ");
+        const parsed = s.replace(/(<.*?>)/g, ' ').replace(/\s+/g, ' ');
 
-        // console.log("PARSED", parsed);
+        // console.log('PARSED', parsed);
         // console.log(`Words: ${parsed.split(' ').length}; Chars: ${parsed.length}`)
       });
 
@@ -158,7 +157,7 @@ export const Editor = forwardRef<EditorState, EditorProps>(
       <LexicalComposer
         initialConfig={{
           ...editorConfig,
-          ...(initialText && { editorState: initialText }),
+          ...(initialText && {editorState: initialText}),
         }}
       >
         <SharedAutocompleteContext>
@@ -168,27 +167,25 @@ export const Editor = forwardRef<EditorState, EditorProps>(
               <RichTextPlugin
                 contentEditable={
                   <div ref={onRef}>
-                    <ContentEditable className='editor-input' />
+                    <ContentEditable className='editor-input'/>
                   </div>
                 }
-                placeholder={<Placeholder />}
+                placeholder={<Placeholder/>}
                 ErrorBoundary={LexicalErrorBoundary}
               />
-              <OnChangePlugin onChange={handleEditorChange} />
-              <HistoryPlugin />
-              {/* <TreeViewPlugin /> */}
-              <AutoFocusPlugin />
+              <OnChangePlugin onChange={handleEditorChange}/>
+              <HistoryPlugin/>
+              <AutoFocusPlugin/>
               {/* <CodeHighlightPlugin /> */}
-              <ListPlugin />
-              <TabIndentationPlugin />
-              <CheckListPlugin />
-              <LinkPlugin />
-              <ComponentPickerPlugin />
-              <MarkdownPlugin />
-              {/* <MarkdownShortcutPlugin transformers={TRANSFORMERS} /> */}
-              <AutocompletePlugin />
-              {initialText && <LoadingDataPlugins data={initialText} />}
-              {htmlSource && <LoadingHTMLData html={htmlSource} />}
+              <ListPlugin/>
+              <TabIndentationPlugin/>
+              <CheckListPlugin/>
+              <LinkPlugin/>
+              <ComponentPickerPlugin/>
+              <MarkdownPlugin/>
+              <AutocompletePlugin/>
+              {initialText && <LoadingDataPlugins data={initialText}/>}
+              {htmlSource && <LoadingHTMLData html={htmlSource}/>}
 
               {floatingAnchorElem && !isSmallWidthViewport && (
                 <>
@@ -199,8 +196,7 @@ export const Editor = forwardRef<EditorState, EditorProps>(
                   />
                 </>
               )}
-              <AutoLinkPlugin />
-              {/* <ListMaxIndentLevelPlugin maxDepth={7} /> */}
+              <AutoLinkPlugin/>
             </div>
           </div>
         </SharedAutocompleteContext>
