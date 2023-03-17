@@ -44,7 +44,7 @@ function Placeholder() {
 }
 
 /**
- * Интерфейс для редактора
+ * Editor interface
  */
 interface EditorProps {
   initialText?: string;
