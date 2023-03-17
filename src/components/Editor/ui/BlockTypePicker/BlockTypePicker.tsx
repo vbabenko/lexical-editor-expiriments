@@ -188,7 +188,7 @@ export function BlockFormatDropDown({
   return (
     <DropDown
       disabled={disabled}
-      buttonClassName="toolbar-item block-controls dropdown-button"
+      buttonClassName="popup-item block-controls dropdown-button"
       buttonIconClassName={'icon block-type ' + blockType}
       buttonLabel={blockTypeToBlockName[blockType]}
       buttonAriaLabel="Formatting options for text style">

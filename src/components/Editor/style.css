@@ -80,7 +80,7 @@ header h1 {
   position: relative;
   tab-size: 1;
   outline: 0;
-  padding: 15px 10px;
+  padding: 15px 55px;
   caret-color: #444;
 }
 
@@ -1500,6 +1500,17 @@ button.action-button:disabled {
   margin-right: 8px;
   line-height: 16px;
   background-size: contain;
+}
+
+.popup-item.color-picker .font-color {
+  margin: 0;
+}
+
+.popup-item.color-picker .chevron-down {
+  width: 10px;
+  height: 10px;
+  display: flex;
+  align-self: center;
 }
 
 .toolbar i.chevron-down {

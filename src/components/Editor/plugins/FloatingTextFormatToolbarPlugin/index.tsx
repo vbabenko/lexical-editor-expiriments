@@ -261,7 +261,7 @@ function TextFormatFloatingToolbar({
           </button>
           <ColorPicker
             disabled={false}
-            buttonClassName='toolbar-item color-picker'
+            buttonClassName='popup-item color-picker'
             buttonAriaLabel='Formatting text color'
             buttonIconClassName='icon font-color'
             color={fontColor}
